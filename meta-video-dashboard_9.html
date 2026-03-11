@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>クリエイティブ パフォーマンス v9.1</title>
+<title>クリエイティブ パフォーマンス v9</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -765,7 +765,7 @@
     <div class="dot"></div>
     <span class="badge-text">Meta Ads</span>
   </div>
-  <h1>クリエイティブ パフォーマンス v9.1</h1>
+  <h1>クリエイティブ パフォーマンス</h1>
 </div>
 
 <!-- STEP 1: Login -->
@@ -2415,15 +2415,7 @@ function renderAds(ads, level) {
   const bm = bmLoad();
   const container = document.getElementById('ad-cards');
 
-  container.style.cssText = 'display:block;width:100%;overflow:visible;min-height:100px;';
-  container.innerHTML = '<div style="background:orange;padding:20px;font-size:18px;color:#000">BEFORE TABLE</div>';
-  try {
-    _renderUnifiedTable(filtered, level, bm, container);
-  } catch(e) {
-    container.innerHTML = '<div style="background:red;padding:20px;font-size:18px;color:#fff">ERROR: ' + e.message + '</div>';
-    return;
-  }
-  container.insertAdjacentHTML('afterbegin', '<div style="background:lime;padding:20px;font-size:18px;color:#000">AFTER TABLE len=' + container.innerHTML.length + '</div>');
+  _renderUnifiedTable(filtered, level, bm, container);
 
   if (SCATTER_OPEN) renderScatter(filtered);
 }
@@ -2745,9 +2737,8 @@ function _renderUnifiedTable(ads, level, bm, container) {
 
   // ── テーブルHTML ──
   container.innerHTML = `
-    <div style="background:#ffe0e0;padding:8px;color:red;font-size:14px">▼テーブル開始▼ rows=${ads.length}</div>
-    <div style="display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:3px solid red">
-      <table style="display:table;width:max-content;min-width:100%;border-collapse:collapse;font-size:12px">
+    <div class="ads-tbl-wrap" style="display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <table class="ads-table" style="display:table;width:max-content;min-width:100%">
         <thead>
           <tr>
             <th data-col="0" style="width:24px;text-align:left"></th>
