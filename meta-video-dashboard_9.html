@@ -2738,8 +2738,9 @@ function _renderUnifiedTable(ads, level, bm, container) {
 
   // ── テーブルHTML ──
   container.innerHTML = `
-    <div class="ads-tbl-wrap" style="display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">
-      <table class="ads-table" style="display:table;width:max-content;min-width:100%">
+    <div style="background:#ffe0e0;padding:8px;color:red;font-size:14px">▼テーブル開始▼ rows=${ads.length}</div>
+    <div style="display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:3px solid red">
+      <table style="display:table;width:max-content;min-width:100%;border-collapse:collapse;font-size:12px">
         <thead>
           <tr>
             <th data-col="0" style="width:24px;text-align:left"></th>
