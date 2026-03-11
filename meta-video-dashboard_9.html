@@ -778,7 +778,7 @@
       <div class="input-wrap">
         <input type="password" id="pw-input" placeholder="設定したパスワード"
                onkeydown="if(event.key==='Enter')loginWithPassword()">
-        <button class="eye-btn" id="eye-pw-btn" onclick="togglePw()">👁️</button>
+        <button class="eye-btn" id="eye-pw-btn" onclick="togglePw()">👁</button>
       </div>
       <label>期間</label>
       <select id="date-preset-pw" style="margin-bottom:16px">
@@ -808,7 +808,7 @@
       <label>アクセストークン</label>
       <div class="input-wrap">
         <input type="password" id="token-input" class="token-input" placeholder="EAAxxxxxxx...">
-        <button class="eye-btn" id="eye-btn" onclick="toggleToken()">👁️</button>
+        <button class="eye-btn" id="eye-btn" onclick="toggleToken()">👁</button>
       </div>
       <label>パスワードを設定する（任意）</label>
       <div class="input-wrap" style="margin-bottom:6px">
@@ -841,7 +841,7 @@
         <label>App Secret</label>
         <div class="input-wrap">
           <input type="password" id="app-secret-input" class="token-input" placeholder="アプリシークレット">
-          <button class="eye-btn" id="eye-secret-btn" onclick="toggleSecret()">👁️</button>
+          <button class="eye-btn" id="eye-secret-btn" onclick="toggleSecret()">👁</button>
         </div>
         <div id="exchange-error" class="error" style="display:none"></div>
         <div id="exchange-success" style="display:none;color:#4ade80;font-size:12px;margin-bottom:12px"></div>
@@ -1301,7 +1301,7 @@ function toggleSecret() {
   const inp = document.getElementById('app-secret-input');
   const btn = document.getElementById('eye-secret-btn');
   inp.type = inp.type === 'password' ? 'text' : 'password';
-  btn.textContent = inp.type === 'password' ? '👁️' : '🙈';
+  btn.innerHTML = inp.type === 'password' ? '👁' : '<span style="text-decoration:line-through">👁</span>';
 }
 
 async function exchangeToken() {
@@ -1344,7 +1344,7 @@ function togglePw() {
   const inp = document.getElementById('pw-input');
   const btn = document.getElementById('eye-pw-btn');
   inp.type = inp.type === 'password' ? 'text' : 'password';
-  btn.textContent = inp.type === 'password' ? '👁️' : '🙈';
+  btn.innerHTML = inp.type === 'password' ? '👁' : '<span style="text-decoration:line-through">👁</span>';
 }
 
 async function loginWithPassword() {
@@ -1829,20 +1829,22 @@ function updateDateBtn(label, since, until) {
   });
 }
 
+// Meta APIで無効なdate_preset（time_rangeに変換が必要なもの）
+const _CUSTOM_PRESETS = new Set(['today_yesterday','this_week','last_week','this_month','last_month','maximum']);
+
 function applyPreset(preset) {
-  if (preset === 'today_yesterday') {
-    const { since, until } = presetDates(preset);
+  const { since, until } = presetDates(preset);
+  if (_CUSTOM_PRESETS.has(preset)) {
+    // Meta APIに無効なプリセット → time_rangeとして送る
     DATE_PRESET = '';
     DATE_SINCE = since;
     DATE_UNTIL = until;
-    updateDateBtn(PRESET_LABELS[preset], since, until);
   } else {
     DATE_PRESET = preset;
     DATE_SINCE = '';
     DATE_UNTIL = '';
-    const { since, until } = presetDates(preset);
-    updateDateBtn(PRESET_LABELS[preset], since, until);
   }
+  updateDateBtn(PRESET_LABELS[preset] || preset, since, until);
   document.querySelectorAll('.date-option').forEach(el => {
     el.classList.toggle('cur', el.dataset.p === preset);
   });
@@ -1895,8 +1897,8 @@ function exportCSV() {
 function toggleToken() {
   const inp = document.getElementById('token-input');
   const btn = document.getElementById('eye-btn');
-  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-  else { inp.type = 'password'; btn.textContent = '👁️'; }
+  if (inp.type === 'password') { inp.type = 'text'; btn.innerHTML = '<span style="text-decoration:line-through">👁</span>'; }
+  else { inp.type = 'password'; btn.innerHTML = '👁'; }
 }
 
 async function fetchAccounts() {
