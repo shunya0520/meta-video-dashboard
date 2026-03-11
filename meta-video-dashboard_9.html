@@ -1043,7 +1043,7 @@
     <summary>デバッグ</summary>
     <pre id="debug-text"></pre>
   </details>
-  <div class="ad-cards" id="ad-cards"></div>
+  <div class="ad-cards" id="ad-cards" style="display:block;width:100%;overflow:visible"></div>
   <div id="data-loading" class="loading" style="display:none"><span class="spinner"></span>広告データ取得中...</div>
 </div>
 
@@ -2415,7 +2415,6 @@ function renderAds(ads, level) {
   const bm = bmLoad();
   const container = document.getElementById('ad-cards');
 
-  container.style.cssText = 'display:block;width:100%;overflow:visible;';
   _renderUnifiedTable(filtered, level, bm, container);
 
   if (SCATTER_OPEN) renderScatter(filtered);
@@ -2738,8 +2737,9 @@ function _renderUnifiedTable(ads, level, bm, container) {
 
   // ── テーブルHTML ──
   container.innerHTML = `
-    <div class="ads-tbl-wrap" style="display:block!important;width:100%!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch;visibility:visible!important;opacity:1!important">
-      <table class="ads-table" style="display:table!important;width:max-content;min-width:100%;visibility:visible!important">
+    <div style="display:block;width:100%;overflow:visible">
+      <div class="ads-tbl-wrap" style="display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">
+        <table class="ads-table" style="display:table;width:max-content;min-width:100%">
         <thead>
           <tr>
             <th data-col="0" style="width:24px;text-align:left"></th>
@@ -2786,6 +2786,7 @@ function _renderUnifiedTable(ads, level, bm, container) {
           </tr>
         </tfoot>
       </table>
+    </div>
     </div>`;
 
   // ── イベントリスナー ──
