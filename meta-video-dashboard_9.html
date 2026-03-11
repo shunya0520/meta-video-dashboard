@@ -2422,10 +2422,18 @@ function renderAds(ads, level) {
   const bm = bmLoad();
   const container = document.getElementById('ad-cards');
 
+  container.innerHTML = '<div style="background:yellow;color:red;padding:20px;font-size:18px;font-weight:bold">DEBUG: renderAds called. filtered=' + filtered.length + ' level=' + level + '</div>';
   try {
     _renderUnifiedTable(filtered, level, bm, container);
+    // テーブルが生成されたか確認
+    var tbl = container.querySelector('.ads-table');
+    if (!tbl) {
+      container.innerHTML += '<div style="background:red;color:white;padding:10px">テーブルが生成されませんでした</div>';
+    } else {
+      container.insertAdjacentHTML('beforeend', '<div style="background:lime;color:black;padding:10px">テーブル生成OK rows=' + tbl.querySelectorAll('tbody tr').length + '</div>');
+    }
   } catch(e) {
-    container.innerHTML = '<div style="color:#dc2626;padding:16px;font-size:13px">テーブル描画エラー: ' + e.message + '<br>Line: ' + (e.stack||'').split('\\n').slice(0,3).join('<br>') + '</div>';
+    container.innerHTML = '<div style="background:red;color:white;padding:20px;font-size:16px">エラー: ' + e.message + '</div>';
   }
 
   if (SCATTER_OPEN) renderScatter(filtered);
