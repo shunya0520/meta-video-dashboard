@@ -2415,6 +2415,7 @@ function renderAds(ads, level) {
   const bm = bmLoad();
   const container = document.getElementById('ad-cards');
 
+  container.style.cssText = 'display:block;width:100%;overflow:visible;min-height:100px;';
   _renderUnifiedTable(filtered, level, bm, container);
 
   if (SCATTER_OPEN) renderScatter(filtered);
@@ -2737,8 +2738,8 @@ function _renderUnifiedTable(ads, level, bm, container) {
 
   // ── テーブルHTML ──
   container.innerHTML = `
-    <div class="ads-tbl-wrap">
-      <table class="ads-table">
+    <div class="ads-tbl-wrap" style="display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <table class="ads-table" style="display:table;width:max-content;min-width:100%">
         <thead>
           <tr>
             <th data-col="0" style="width:24px;text-align:left"></th>
