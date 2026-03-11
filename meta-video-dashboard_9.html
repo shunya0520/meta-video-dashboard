@@ -2416,7 +2416,14 @@ function renderAds(ads, level) {
   const container = document.getElementById('ad-cards');
 
   container.style.cssText = 'display:block;width:100%;overflow:visible;min-height:100px;';
-  _renderUnifiedTable(filtered, level, bm, container);
+  container.innerHTML = '<div style="background:orange;padding:20px;font-size:18px;color:#000">BEFORE TABLE</div>';
+  try {
+    _renderUnifiedTable(filtered, level, bm, container);
+  } catch(e) {
+    container.innerHTML = '<div style="background:red;padding:20px;font-size:18px;color:#fff">ERROR: ' + e.message + '</div>';
+    return;
+  }
+  container.insertAdjacentHTML('afterbegin', '<div style="background:lime;padding:20px;font-size:18px;color:#000">AFTER TABLE len=' + container.innerHTML.length + '</div>');
 
   if (SCATTER_OPEN) renderScatter(filtered);
 }
